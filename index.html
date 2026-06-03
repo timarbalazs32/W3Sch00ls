@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>W3Sch00ls</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Playfair+Display:wght@400;500;600;700&family=Caveat:wght@400;500;600&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+	
+	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000000' rx='20'/%3E%3Ctext x='50' y='70' font-size='45' text-anchor='middle' fill='%23ffffff' font-family='Arial' font-weight='bold'%3EW3%3C/text%3E%3C/svg%3E">
+
+    <style>
+        * {
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        
+        body {
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 280px;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.35s ease-in-out;
+            z-index: 40;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .sidebar-left { left: 0; right: auto; }
+        .sidebar-right { right: 0; left: auto; }
+        
+        .sidebar-top {
+            top: 0; left: 0; right: 0; bottom: auto;
+            width: 100%; height: auto;
+            flex-direction: row; align-items: center; justify-content: space-between;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.2);
+        }
+        .sidebar-top .logo h2 { margin-bottom: 0; }
+        .sidebar-top .nav-menu ul { display: flex; gap: 1rem; flex-wrap: wrap; }
+        
+        .sidebar-bottom {
+            bottom: 0; left: 0; right: 0; top: auto;
+            width: 100%; flex-direction: row; justify-content: space-between;
+            padding: 0.8rem 2rem;
+            border-top: 1px solid rgba(0,0,0,0.2);
+        }
+        .sidebar-bottom .logo h2 { margin-bottom: 0; }
+        .sidebar-bottom .nav-menu ul { display: flex; gap: 1rem; flex-wrap: wrap; }
+        
+        .content-left { margin-left: 280px; margin-right: 0; width: calc(100% - 280px); }
+        .content-right { margin-right: 280px; margin-left: 0; width: calc(100% - 280px); }
+        .content-top { margin-top: 120px; margin-left: 0; margin-right: 0; width: 100%; }
+        .content-bottom { margin-bottom: 100px; margin-left: 0; margin-right: 0; width: 100%; }
+        
+        .content {
+            padding: 3rem 4rem;
+            max-width: 1300px;
+            margin-left: auto;
+            margin-right: auto;
+            transition: all 0.35s ease-in-out;
+        }
+        
+        .code-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        .code-container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar-top .nav-menu ul, .sidebar-bottom .nav-menu ul { gap: 0.5rem; }
+            .content { padding: 2rem 1.5rem; }
+            .content-top { margin-top: 160px; }
+            .content-bottom { margin-bottom: 140px; }
+        }
+        
+        .nav-menu a {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s ease;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            display: block;
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+        }
+        
+        h1 {
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .doc-card {
+            transition: all 0.25s ease;
+        }
+        
+        .btn-random {
+            backdrop-filter: blur(10px);
+            font-weight: 700;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+        .btn-random:hover { transform: scale(1.05); }
+        
+        @keyframes backupFlash {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .backup-success {
+            animation: backupFlash 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body id="appBody">
+
+    <div class="fixed bottom-6 right-6 z-50 flex gap-3">
+        <button id="randomThemeBtn" class="btn-random px-5 py-3 rounded-full text-white font-bold shadow-2xl flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+            Random Theme
+        </button>
+        <button id="randomLayoutBtn" class="btn-random px-5 py-3 rounded-full text-white font-bold shadow-2xl flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6z" /></svg>
+            Sidebar Edge
+        </button>
+    </div>
+
+    <aside class="sidebar sidebar-left" id="dynamicSidebar">
+        <div class="logo">
+            <h2>W3<span>Sch00ls</span></h2>
+        </div>
+        <nav class="nav-menu">
+            <p class="nav-title text-xs uppercase tracking-wider font-semibold mb-3 opacity-70">Navigation</p>
+            <ul>
+                <li><a href="#backend">Backend</a></li>
+                <li><a href="#frontend">Frontend (Angular)</a></li>
+                <li><a href="#responsive">Responsive Styling</a></li>
+                <li><a href="#console">Console</a></li>
+                <li><a href="#wpf">WPF</a></li>
+                <li><button id="backupButton" class="text-red-500" style="">Backup</button></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="content content-left" id="dynamicContent">
+        
+        <section id="backend">
+            <h1>Backend Documentation</h1>
+            <p class="section-desc mb-6 text-lg opacity-80">Node.js + SQLite3 database solutions for modern APIs.</p>
+
+            <!-- SQLite3 Example - Full original code -->
+            <div class="doc-card mb-8">
+                <h2>1. SQLite3 Example (Async / Callback based)</h2>
+                <p>Using the basic <code>sqlite3</code> driver in an Express.js environment. This library handles requests asynchronously using callback functions, and uses modern <code>import</code> (ESM) syntax.</p>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header flex justify-between items-center p-3 border-b">
+                            <span class="font-mono text-sm">index.js (sqlite3)</span>
+                            <button class="copy-btn px-4 py-1 rounded-lg text-sm font-medium transition" onclick="copyCode('code-sqlite3')">Copy</button>
+                        </div>
+                        <pre><code id="code-sqlite3" class="language-javascript">import express from 'express';
+import cors from 'cors';
+import sqlite3 from 'sqlite3';
+
+const app = express();
+const port = 8000;
+app.use(cors());
+app.use(express.json());
+
+const db = new sqlite3.Database(`sakila.db`);
+
+app.get('/', (req, res) => {
+    res.json({message: 'Welcome to the Film Portal Backend'});
+});
+
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
+
+app.get(`/films`, (req, res) => {
+    try {
+        let {limit, offset} = req.query;
+
+        if (!limit || !offset) {
+            limit = 50;
+            offset = 0;
+        }
+
+        if (typeof limit !== "number" || typeof offset !== "number") {
+            return res.status(400).json({error: "The parameters have invalid datatypes"})
+        }
+
+        const sql = `select * from film`
+
+        db.all(sql, [], function(error, rows) {
+            if (error) {
+                return res.status(400).json({error: error.message})
+            }
+            return res.status(200).json(rows)
+        })
+    }
+    catch (error) {
+        return res.status(400).json({error: error.message})
+    }
+})
+
+app.get(`/films/:id`, (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({message: `invalid parameter`})
+        }
+
+        const sql = `select * from film where film_id = ?`
+
+        db.all(sql, [parseInt(id)], function(error, rows) {
+            if (error) {
+                return res.status(404).json({error: error.message})
+            }
+
+            if (rows.length > 0) {
+                return res.status(200).json(rows)
+            } else {
+                return res.status(404).json({error: "No such film."})
+            }
+        })
+    }
+    catch (error) {
+        return res.status(404).json({error: error.message})
+    }
+})
+
+app.post(`/films`, (req, res) => {
+    try {
+        const {
+            film_id, title, description, release_year, language_id, 
+            original_language_id, rental_duration, rental_rate, length, 
+            replacement_cost, rating, special_features
+        } = req.body
+
+        if (!film_id || !title || !description || !release_year || !language_id ||
+            !rental_duration || !rental_rate || !length || !replacement_cost ||
+            !rating || !special_features) 
+        {
+            return res.status(400).json({error: `A required parameter is missing.`})
+        }
+
+        let date = new Date().toISOString()
+        console.log(date)
+
+        const sql = `insert into film (film_id, title, description, release_year, language_id, rental_duration, rental_rate, length,
+            replacement_cost, rating, special_features, last_update) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+
+        db.run(sql, [film_id, title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features, date], function(error, rows) {
+            if (error) {
+                return res.status(400).json({error: error.message})                
+            }
+            return res.status(201).json({id: this.lastID})
+        })
+    }
+    catch (error) {
+        return res.status(400).json({error: error.message})
+    }
+})
+
+app.get(`/category-films/:category_id`, (req, res) => {
+    try {
+        const {category_id} = req.params;
+        const category_id_num = Number(category_id)
+        const sql_getCategory = `select film.* from film join film_category on film.film_id = film_category.film_id where film_category.category_id = ?`
+        
+        db.all(sql_getCategory, [category_id_num], function(error, rows) {
+            if (error) {
+                return res.status(400).json({error: error.message})
+            }
+            
+            if (rows.length === 0) {
+                return res.status(200).json(rows);
+            }
+
+            const sql = `select * from film where special_features like ?`;
+            db.all(sql, [`%${rows[0].name}%`], function(error2, rows2) {
+                if (error2) {
+                    return res.status(400).json({error: error2.message})
+                }
+                return res.status(200).json(rows2)
+            });
+        })
+    }
+    catch (error) {
+        return res.status(400).json({error: error.message})
+    }
+})
+
+app.get(`/actors`, (req, res) => {
+    try {
+        let {limit, offset} = req.query;
+
+        if (!limit || !offset) {
+            limit = 50;
+            offset = 0;
+        }
+
+        const sql = `select * from actor`
+
+        db.all(sql, [], function(error, rows) {
+            if (error) {
+                return res.status(400).json({error: error.message})
+            }
+            return res.status(200).json(rows)
+        })    
+    }
+    catch (error) {
+        return res.status(400).json({error: error.message})
+    }
+})
+
+app.get(`/categories`, (req, res) => {
+    try {
+        const sql = `select * from category`
+
+        db.all(sql, [], function(error, rows) {
+            if (error) {
+                return res.status(400).json({error: error.message})
+            }
+            return res.status(200).json(rows)
+        })
+    }
+    catch (error) {
+        return res.status(400).json({error: error.message})
+    }
+})
+
+app.get(`/customers`, (req, res) => {
+    try {
+        const sql = `select * from customer`
+        db.all(sql, [], function(error, rows) {
+            if (error) {
+                return res.status(400).json({error: error.message})
+            }
+            return res.status(200).json(rows)
+        })
+    }
+    catch (error) {
+        return res.status(400).json({error: error.message})
+    }
+})
+
+app.get(`/languages`, (req, res) => {
+    try {
+        const sql = `select * from language`
+        db.all(sql, [], function(error, rows) {
+            if (error) {
+                return res.status(400).json({error: error.message})
+            }
+            return res.status(200).json(rows)
+        })
+    }
+    catch (error) {
+        return res.status(400).json({error: error.message})
+    }
+})
+
+app.get(`/film-actors/:id`, (req, res) => {
+    try {
+        const { id } = req.params;
+        const num_id = Number(id)
+
+        const sql_getFilm = `select actor.first_name FROM actor JOIN film_actor ON actor.actor_id = film_actor.actor_id WHERE film_actor.film_id = ?`
+
+        db.all(sql_getFilm, [num_id], function(error, rows) {
+            if (error) {
+                return res.status(400).json({error: error.message})
+            }
+            return res.status(200).json(rows)
+        })
+    }
+    catch (error) {
+        return res.status(400).json({error: error.message})
+    }
+})
+
+app.post(`/actors`, (req, res) => {
+    try {
+        const {actor_id, first_name, last_name} = req.body;
+
+        if (!actor_id || !first_name || !last_name) {
+            return res.status(400).json({message: "Missing parameters"})
+        }
+
+        const sql = `insert into actor (actor_id, first_name, last_name, last_update) values(?, ?, ?, ?)`
+        let date = new Date().toISOString()
+
+        db.run(sql, [actor_id, first_name, last_name, date], function(error ,rows) {
+            if (error) {
+                return res.status(400).json({message: error.message})
+            }
+            return res.status(201).json(this.lastID)
+        })
+    }
+    catch (error) {
+        return res.status(400).json({error: error.message})
+    }
+})
+
+app.get(`/customer-rentals/:customer_id`, (req, res) => {
+    try {
+        const { customer_id } = req.params;
+
+        if (!customer_id) {
+            return res.status(400).json({message: "A required parameter is missing."})
+        }
+
+        const sql = `select rental_id, rental_date, return_date from rental where customer_id = ?`
+
+        db.all(sql, [customer_id], function(error, rows) {
+            if (error) {
+                return res.status(400).json(error.message)
+            }
+            return res.status(200).json(rows)
+        })
+    }
+    catch (error) {
+        return res.status(400).json({error: error.message})
+    }
+})</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Better-SQLite3 Example - Full original code -->
+            <div class="doc-card mb-8">
+                <h2>2. Better-SQLite3 Example (Synchronous / Cinema Network Management API)</h2>
+                <p>This example uses the <code>better-sqlite3</code> package synchronously for a movie watching and film management system. EXAM TIP: Pay attention to the methods! Use <code>.all()</code> for multiple rows, <code>.get()</code> for a single row, and <code>.run()</code> for data manipulation (INSERT, DELETE, UPDATE).</p>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header flex justify-between items-center p-3 border-b">
+                            <span class="font-mono text-sm">index.js (better-sqlite3)</span>
+                            <button class="copy-btn px-4 py-1 rounded-lg text-sm font-medium transition" onclick="copyCode('code-better-sqlite3')">Copy</button>
+                        </div>
+                        <pre><code id="code-better-sqlite3" class="language-javascript">const cors = require('cors');
+const express = require('express');
+const Database = require('better-sqlite3');
+
+const app = express();
+app.use(express.json());
+
+// TODO 1: CORS engedélyezése (cors csomag)
+app.use(cors())
+
+// TODO 3: mozihalo.db adatbázis használata
+const db = new Database('mozihalo.db');
+
+// TODO 5: GET / – üdvözlő JSON üzenet
+app.get("/",  (req, res) => {
+  res.json({message: "Üdvözlés"});
+})
+
+// TODO 6: GET /filmek
+app.get("/filmek", (req, res) => {
+  try {
+    const sql = "select * from filmek";
+    const result = db.prepare(sql).all();
+    return res.status(200).json(result);
+  }
+  catch (error) {
+    return res.status(500).json(error.message);
+  }
+});
+
+// TODO 7: GET /vetites/:vazon (JOIN: fcim, mnev, varos)
+app.get("/vetites/:vazon", (req, res) => {
+  try {
+    const vazon = req.params.vazon;
+    const sql = "SELECT filmek.fcim, mozik.mnev, mozik.varos FROM vetitesek inner join mozik on mozik.mazon = vetitesek.mazon inner join filmek on filmek.fazon = vetitesek.fazon where vetitesek.vazon = ?";
+    const result = db.prepare(sql).get(Number(vazon));
+    return res.status(200).json(result);
+  }
+  catch (error) {
+    return res.status(500).json(error.message);
+  }
+});
+
+// TODO 8: POST /filmek
+app.post("/filmek", (req, res) => {
+  try {
+    const {fazon, fcim, rendezo, gyartasi_ev, mufaj, jegypont} = req.body;
+    const sql = "insert into filmek (fazon, fcim, rendezo, gyartasi_ev, mufaj, jegypont) values (?, ?, ?, ?, ?, ?)";
+    const result = db.prepare(sql).run(fazon, fcim, rendezo, gyartasi_ev, mufaj, jegypont);
+    return res.status(201).json({message: "Film sikeresen hozzáadva", id: result.lastInsertRowid});
+  }
+  catch (error) {
+    return res.status(500).json(error.message);
+  }
+})
+
+// TODO 9: DELETE /film/:fazon
+app.delete("/film/:fazon", (req, res) => {
+  try {
+    const fazon = Number(req.params.fazon);
+    const sql = "delete from filmek where fazon = ?";
+    const result = db.prepare(sql).run(fazon);
+    return res.status(200).json({message: "Film sikeresen törölve"});
+  }
+  catch (error) {
+    return res.status(500).json(error.message);
+  }
+})
+
+// TODO 10: POST /mozik
+app.post("/mozik", (req, res) => {
+  const {mazon, mnev, varos, termek_szama} = req.body;
+  try {
+    const sql = "insert into mozik (mazon, mnev, varos, termek_szama) values (?, ?, ?, ?)";
+    const result = db.prepare(sql).run(mazon, mnev, varos, termek_szama);
+    return res.status(201).json({message: "Mozi sikeresen hozzáadva", id: result.lastInsertRowid});
+  }
+  catch (error) {
+    return res.status(500).json(error.message);
+  }
+})
+
+// TODO 11: PATCH /vetites/:vazon
+app.patch("/vetites/:vazon", (req, res) => {
+  try {
+    const vazon = Number(req.params.vazon);
+    const {fazon, mazon, kezdete} = req.body;
+    const sql = "update vetitesek set fazon = ?, mazon = ?, kezdete = ? where vazon = ?";
+    const result = db.prepare(sql).run(fazon, mazon, kezdete, vazon);
+    return res.status(200).json({message: "Vetítés sikeresen frissítve"});
+  }
+  catch (error)
+  {
+    return res.status(500).json(error.message);
+  }
+})
+
+// TODO 2: 8000-es port
+const PORT = 8000;
+app.listen(PORT, () => {
+  console.log(`Szerver fut: http://localhost:${PORT}`);
+});</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="my-8 opacity-30">
+
+        <section id="frontend">
+            <h1>Frontend Documentation (Angular)</h1>
+            <p class="section-desc mb-6 text-lg opacity-80">Angular CLI setup, services, components, and routing.</p>
+            
+            <div class="doc-card mb-8">
+                <h2>1. Prerequisites & Project-level Commands</h2>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header flex justify-between items-center p-3 border-b"><span>Terminal commands</span><button class="copy-btn" onclick="copyCode('code-cli')">Copy</button></div>
+                        <pre><code id="code-cli" class="language-bash">npm init -y
+npm i @angular/cli
+npx ng new "projekt neve"
+npx ng generate component "komponens neve"
+npx ng generate service "szervíz neve"</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h2>2. HTTP Client Setup (app.config.ts)</h2>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header flex justify-between items-center p-3 border-b"><span>app.config.ts</span><button class="copy-btn" onclick="copyCode('code-config')">Copy</button></div>
+                        <pre><code id="code-config" class="language-typescript">import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient()
+  ]
+};</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h2>3. Student Service Implementation (tanulo.service.ts)</h2>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header"><span>tanulo-service.ts</span><button class="copy-btn" onclick="copyCode('code-service')">Copy</button></div>
+                        <pre><code id="code-service" class="language-typescript">import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface Tanulo {
+  oktazon: number;
+  nev: string;
+  hozott: number;
+  kpmagy: number;
+  kpmat: number;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class TanuloService {
+  private apiUrl = 'http://localhost:8000/tanulok';
+  constructor(private http: HttpClient) {}
+
+  getOsszesTanulo(): Observable&lt;Tanulo[]&gt; {
+    return this.http.get&lt;Tanulo[]&gt;(this.apiUrl);
+  }
+
+  deleteTanulo(oktazon: number): Observable&lt;any&gt; {
+    return this.http.delete(`http://localhost:8000/tanulo/id/${oktazon}`);
+  }
+
+  addTanulo(tanulo: Tanulo): Observable&lt;Tanulo&gt; {
+    return this.http.post&lt;Tanulo&gt;("http://localhost:8000/tanulo", tanulo);
+  }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h2>4. Main List Component (tanulok)</h2>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header"><span>tanulok.ts</span><button class="copy-btn" onclick="copyCode('code-tanulok-ts')">Copy</button></div>
+                        <pre><code id="code-tanulok-ts" class="language-typescript">import { Component, OnInit } from '@angular/core';
+import { TanuloService, Tanulo } from '../../services/tanulo-service'; 
+import { CommonModule } from '@angular/common';
+import { TanuloCard } from "../tanulo-card/tanulo-card";
+
+@Component({
+  selector: 'app-tanulok',
+  standalone: true,
+  imports: [CommonModule, TanuloCard],
+  templateUrl: './tanulok.html',
+  styleUrl: './tanulok.css',
+})
+export class Tanulok implements OnInit {
+  TanulokLista: Tanulo[] = []; 
+  constructor(private tanuloService: TanuloService) {}
+
+  ngOnInit() {
+    this.tanuloService.getOsszesTanulo().subscribe((data) => {
+      this.TanulokLista = data;
+    });
+  }
+}</code></pre>
+                    </div>
+                </div>
+                <div class="code-wrapper mt-4">
+                    <div class="code-container">
+                        <div class="code-header"><span>tanulok.html</span><button class="copy-btn" onclick="copyCode('code-tanulok-html')">Copy</button></div>
+                        <pre><code id="code-tanulok-html" class="language-xml">&lt;p&gt;tanulok&lt;/p&gt;
+&lt;div class="grid grid-cols-1 md:grid-cols-3 gap-4"&gt;
+  @for (tanulo of TanulokLista; track tanulo.oktazon) {
+    &lt;app-tanulo-card [tanuloInfo]="tanulo"&gt;&lt;/app-tanulo-card&gt;
+  }
+&lt;/div&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h2>5. Child Card Component (tanulo-card)</h2>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header"><span>tanulo-card.ts</span><button class="copy-btn" onclick="copyCode('code-card-ts')">Copy</button></div>
+                        <pre><code id="code-card-ts" class="language-typescript">import { Component, Input, OnInit } from '@angular/core';
+import { TanuloService, Tanulo } from '../../services/tanulo-service'; 
+
+@Component({
+  selector: 'app-tanulo-card',
+  standalone: true,
+  imports: [],
+  templateUrl: './tanulo-card.html',
+})
+export class TanuloCard implements OnInit {
+  @Input() tanuloInfo: Tanulo = {} as Tanulo; 
+  constructor(private tanuloService: TanuloService) {}
+  ngOnInit() { this.test(); }
+  test() { console.log(this.tanuloInfo.nev); }
+
+  torles() {
+    this.tanuloService.deleteTanulo(this.tanuloInfo.oktazon).subscribe({
+      next: () => { console.log("Sikeresen törölve"); },
+      error: (err) => { console.error(err); }
+    });
+  }
+}</code></pre>
+                    </div>
+                </div>
+                <div class="code-wrapper mt-4">
+                    <div class="code-container">
+                        <div class="code-header"><span>tanulo-card.html</span><button class="copy-btn" onclick="copyCode('code-card-html')">Copy</button></div>
+                        <pre><code id="code-card-html" class="language-xml">&lt;div class="w-full max-w-md px-8 py-4 m-5 bg-green-300 rounded-lg shadow-lg"&gt;
+    &lt;h2 class="text-xl font-semibold text-gray-800"&gt;{{ tanuloInfo.nev }}&lt;/h2&gt;
+    &lt;p&gt;Oktatási azonosító: {{ tanuloInfo.oktazon }}&lt;/p&gt;
+    &lt;p&gt;Hozott pontok: {{ tanuloInfo.hozott }}&lt;/p&gt;
+    &lt;p&gt;KpMagy: {{ tanuloInfo.kpmagy }}&lt;/p&gt;
+    &lt;p&gt;KpMat: {{ tanuloInfo.kpmat }}&lt;/p&gt;
+    &lt;button class="bg-green-700 text-white px-4 py-2 rounded mt-2 hover:bg-green-800 transition-colors" (click)="torles()"&gt;Törlés&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h2>6. Data Entry Form (Template-driven Form)</h2>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header"><span>tanulo-form.ts</span><button class="copy-btn" onclick="copyCode('code-form-ts')">Copy</button></div>
+                        <pre><code id="code-form-ts" class="language-typescript">import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms'; 
+import { TanuloService } from '../../services/tanulo-service';
+
+@Component({
+  selector: 'app-tanulo-form',
+  standalone: true,
+  imports: [FormsModule], 
+  templateUrl: './tanulo-form.html',
+})
+export class TanuloForm {
+  constructor(private TanuloService: TanuloService) {}
+
+  onSubmit(form: any) {
+    console.log(form.value);
+    this.TanuloService.addTanulo(form.value).subscribe({
+      next: (response) => { console.log("Sikeres hozzáadás:", response); },
+      error: (err) => { console.error("Hiba a hozzáadás során:", err); }
+    });
+  }
+}</code></pre>
+                    </div>
+                </div>
+                <div class="code-wrapper mt-4">
+                    <div class="code-container">
+                        <div class="code-header"><span>tanulo-form.html</span><button class="copy-btn" onclick="copyCode('code-form-html')">Copy</button></div>
+                        <pre><code id="code-form-html" class="language-xml">&lt;div class="max-w-md mx-auto mt-10 bg-white shadow-lg rounded-lg overflow-hidden"&gt;
+    &lt;div class="text-2xl py-4 px-6 bg-green-600 text-white text-center font-bold uppercase"&gt;Új tanuló felvétele&lt;/div&gt;
+    &lt;form #newStudentForm="ngForm" class="py-4 px-6" (ngSubmit)="onSubmit(newStudentForm)"&gt;
+        &lt;div class="mb-4"&gt;
+            &lt;label class="block text-gray-700 font-bold mb-2" for="azonosito"&gt;Oktatási azonosító&lt;/label&gt;
+            &lt;input class="shadow border rounded w-full py-2 px-3 text-gray-700" id="azonosito" type="text" required name="oktazon" ngModel/&gt;
+
+            &lt;label class="block text-gray-700 font-bold mb-2 mt-4" for="nev"&gt;Név&lt;/label&gt;
+            &lt;input class="shadow border rounded w-full py-2 px-3 text-gray-700" id="nev" type="text" required name="nev" ngModel/&gt;
+        &lt;/div&gt;
+
+        &lt;div class="mb-4"&gt;
+            &lt;label class="block text-gray-700 font-bold mb-2" for="hozott"&gt;Hozott pontszám&lt;/label&gt;
+            &lt;input class="shadow border rounded w-full py-2 px-3 text-gray-700" id="hozott" type="number" required name="hozott" ngModel/&gt;
+
+            &lt;label class="block text-gray-700 font-bold mb-2 mt-4" for="kpmagy"&gt;KpMagy&lt;/label&gt;
+            &lt;input class="shadow border rounded w-full py-2 px-3 text-gray-700" id="kpmagy" type="number" required name="kpmagy" ngModel/&gt;
+
+            &lt;label class="block text-gray-700 font-bold mb-2 mt-4" for="kpmat"&gt;KpMat&lt;/label&gt;
+            &lt;input class="shadow border rounded w-full py-2 px-3 text-gray-700" id="kpmat" type="number" required name="kpmat" ngModel/&gt;
+        &lt;/div&gt;
+
+        &lt;div class="flex items-center justify-center mb-4"&gt;
+            &lt;button class="bg-green-600 text-white py-2 px-4 rounded hover:bg-gray-800 transition-colors" type="submit"&gt;Mentés&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/div&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h2>7. Routing (Routing / Template Navigation)</h2>
+                <h3>A) app.routes.ts</h3>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header"><span>app.routes.ts</span><button class="copy-btn" onclick="copyCode('code-routes-ts')">Copy</button></div>
+                        <pre><code id="code-routes-ts" class="language-typescript">import { Routes } from '@angular/router';
+import { Main } from './components/main/main';
+import { Tanulok } from './components/tanulok/tanulok';
+import { TanuloForm } from './components/tanulo-form/tanulo-form';
+
+export const routes: Routes = [
+  { path: '', component: Main },
+  { path: "tanulok", component: Tanulok },
+  { path: 'tanuloForm', component: TanuloForm },
+  { path: '**', redirectTo: '' }
+];</code></pre>
+                    </div>
+                </div>
+                <h3 class="mt-4">B) Menu Component and Template</h3>
+                <div class="code-wrapper mt-2">
+                    <div class="code-container">
+                        <div class="code-header"><span>menu.ts</span><button class="copy-btn" onclick="copyCode('code-menu-ts')">Copy</button></div>
+                        <pre><code id="code-menu-ts" class="language-typescript">import { Component } from '@angular/core';
+import { RouterOutlet, RouterLink } from '@angular/router'; 
+
+@Component({
+  standalone: true,
+  selector: 'app-menu',
+  imports: [RouterOutlet, RouterLink], 
+  templateUrl: './menu.html',
+})
+export class Menu {}</code></pre>
+                    </div>
+                </div>
+                <div class="code-wrapper mt-4">
+                    <div class="code-container">
+                        <div class="code-header"><span>menu.html</span><button class="copy-btn" onclick="copyCode('code-menu-html')">Copy</button></div>
+                        <pre><code id="code-menu-html" class="language-xml">&lt;nav class="bg-green-600 p-4 shadow-md"&gt;
+  &lt;div class="container mx-auto flex justify-between items-center"&gt;
+    &lt;h1 class="text-white text-xl font-semibold"&gt;Navigáció&lt;/h1&gt;
+    &lt;div class="flex space-x-6"&gt;
+      &lt;a routerLink="/" class="text-white hover:text-green-100 transition-colors"&gt;Főoldal&lt;/a&gt;
+      &lt;a routerLink="/tanulok" class="text-white hover:text-green-100 transition-colors"&gt;Tanulók&lt;/a&gt;
+      &lt;a routerLink="/tanuloForm" class="text-white hover:text-green-100 transition-colors"&gt;Új tanuló&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;
+&lt;router-outlet&gt;&lt;/router-outlet&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="my-8 opacity-30">
+
+        <section id="responsive">
+            <h1>Responsive Styling (Tailwind CSS)</h1>
+            <p class="section-desc mb-6 text-lg opacity-80">A fundamental part of modern web development is a layout that adapts to different devices. Tailwind follows the Mobile-First principle.</p>
+
+            <div class="doc-card mb-8">
+                <h2>Tailwind Play CDN (Include in the Head section)</h2>
+                <p>Copy this script tag into the <code>&lt;head&gt;</code> section of your <code>index.html</code> file to immediately use Tailwind classes without a separate installation:</p>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header"><span>HTML Head Snippet</span><button class="copy-btn" onclick="copyCode('code-cdn-script')">Copy</button></div>
+                        <pre><code id="code-cdn-script" class="language-xml">&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-card mb-8">
+                <h2>1. Basic Breakpoints (Screen Sizes)</h2>
+                <p>In Tailwind, responsiveness is handled with prefixes. Base classes apply on mobile, then we use breakpoints for larger sizes:</p>
+                <ul class="list-disc pl-6 mt-2 space-y-1">
+                    <li><code>sm:</code> ≥ 640px – Larger mobiles / small tablets</li>
+                    <li><code>md:</code> ≥ 768px – Tablets (The most common breakpoint in exams)</li>
+                    <li><code>lg:</code> ≥ 1024px – Laptops, standard desktop monitors</li>
+                    <li><code>xl:</code> ≥ 1280px – High-resolution monitors</li>
+                </ul>
+            </div>
+
+            <div class="doc-card">
+                <h2>2. Common Responsive Patterns & Best Practices</h2>
+                <p><strong>A) Flexbox direction change (e.g., Menu bars):</strong> On mobile, elements stack vertically, while on desktop they align horizontally.</p>
+                <code class="block p-3 mb-4 bg-black/20 rounded">class="flex flex-col md:flex-row justify-between"</code>
+
+                <p><strong>B) Dynamic Grid columns (e.g., Product cards):</strong> A single column on mobile, two on tablets, and four columns on large screens.</p>
+                <code class="block p-3 mb-4 bg-black/20 rounded">class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"</code>
+
+                <p><strong>C) Intelligent widths:</strong> Avoid fixed percentages on mobile! The container should be full width on mobile, and only halved on larger screens.</p>
+                <code class="block p-3 bg-black/20 rounded">class="w-full md:w-1/2 mx-auto"</code>
+            </div>
+        </section>
+        
+        <hr class="my-8 opacity-30">
+
+        <section id="console">
+            <h1>Console Documentation (C#)</h1>
+            <p class="section-desc mb-6 text-lg opacity-80">Basic abstraction in console.</p>
+            
+            <div class="doc-card mb-8">
+                <h2>1. Creation of an abstract class</h2>
+                <p>Here you can see a basic snippet of an abstract class made in C#.</p>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header flex justify-between items-center p-3 border-b"><span>Hajo.cs</span><button class="copy-btn" onclick="copyCode('code-csharp1')">Copy</button></div>
+                        <pre><code id="code-csharp1" class="language-csharp">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HajosFeladat
+{
+    public abstract class Hajo
+    {
+        public string Nev { get; set; }
+        public int Hossz { get; set; }
+        public int Suly { get; set; }
+        public int MaxSebesseg{ get; set; }
+        public int GyartasEve{ get; set; }
+
+        protected Hajo(string nev, int hossz, int suly, int maxSebesseg, int gyartasEve)
+        {
+            Nev = nev;
+            Hossz = hossz;
+            Suly = suly;
+            MaxSebesseg = maxSebesseg;
+            GyartasEve = gyartasEve;
+        }
+
+        public abstract void Haladas();
+        public abstract void Leiras();
+        public double megteszTavolsag(int tavolsag) 
+        {
+            return tavolsag / MaxSebesseg;
+        }
+
+        public override string ToString()
+        {
+            return $"{Nev}, {Hossz}, {Suly}, {MaxSebesseg}";
+        }
+    }
+}
+</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="doc-card mb-8">
+                <h2>2. Creation of a child class</h2>
+                <p>This snippet shows a child class of the class above.</p>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header flex justify-between items-center p-3 border-b"><span>Vitorlas.cs</span><button class="copy-btn" onclick="copyCode('code-csharp2')">Copy</button></div>
+                        <pre><code id="code-csharp2" class="language-csharp">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HajosFeladat
+{
+    public class Vitorlas : Hajo
+    {
+        public int VitorlakSzama{ get; set; }
+
+        public Vitorlas(string nev, int hossz, int suly, int maxSebesseg, int gyartasEve, int vitorlakSzama) : base(nev, hossz, suly, maxSebesseg, gyartasEve)
+        {
+            VitorlakSzama = vitorlakSzama;
+        }
+
+        public override void Haladas()
+        {
+            Console.WriteLine( "A vitorlás a szél segítségével siklik a vízen");
+        }
+
+        public override void Leiras()
+        {
+            Console.WriteLine("Könnyű vitorlás hajó, tengeri kalandokhoz");
+        }
+
+        public override string ToString()
+        {
+            return $"{Nev}, {Hossz}, {Suly}, {MaxSebesseg}, {VitorlakSzama}";
+        }
+    }
+}
+</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="doc-card mb-8">
+                <h2>3. Usage of the classes and testing</h2>
+                <p>This piece of code shows how you can group the classes into one list and iterate through them, calling their <code>.ToString()</code> method.</p>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header flex justify-between items-center p-3 border-b"><span>Program.cs</span><button class="copy-btn" onclick="copyCode('code-csharp3')">Copy</button></div>
+                        <pre><code id="code-csharp3" class="language-csharp">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HajosFeladat
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List&lt;Hajo&gt; hajok = new List&lt;Hajo&gt;();
+
+            Vitorlas vitrlas1 = new Vitorlas("a", 2, 3, 4, 5, 6);
+            Vitorlas vitorlas2 = new Vitorlas("b", 7, 8, 9, 10, 11);
+            Teher teher1 = new Teher("c", 12, 13, 14, 15, 16);
+            Teher teher2 = new Teher("d", 17, 18, 19, 20, 21);
+
+            hajok.Add(vitrlas1);
+            hajok.Add(vitorlas2);
+            hajok.Add(teher1);
+            hajok.Add(teher2);
+
+            // Teszt
+
+            foreach (var item in hajok)
+            {
+                Console.WriteLine(item.ToString());
+            }
+        }
+    }
+}
+</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <hr class="my-8 opacity-30">
+
+        <section id="wpf">
+            <h1>WPF Documentation</h1>
+            <p class="section-desc mb-6 text-lg opacity-80">.NET WPF in C#</p>
+            
+            <div class="doc-card mb-8">
+                <h2>1. Import the <code>.csv</code> file into the project</h2>
+                <p>Import the <code>.csv</code> file into the project and make sure its <code>Copy to Output Directory</code> property is set to <code>Copy always</code></p>
+            </div>
+            
+            <div class="doc-card mb-8">
+                <h2>2. The basic structure of the MainWindow.xaml</h2>
+                <p>There is a basic <code>.xaml</code> file with <code>DataGrid</code>, <code>Menu</code>, <code>MenuItem</code> and <code>ComboBox</code> elements.</p>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header flex justify-between items-center p-3 border-b"><span>MainWindow.xaml</span><button class="copy-btn" onclick="copyCode('code-xaml1')">Copy</button></div>
+                        <pre><code id="code-xaml1" class="language-xml">
+&lt;Window x:Class="Varazsitalok.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Varazsitalok"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"&gt;
+    &lt;Grid&gt;
+        &lt;Grid.RowDefinitions&gt;
+            &lt;RowDefinition Height="14*"/&gt;
+            &lt;RowDefinition Height="165*"/&gt;
+            &lt;RowDefinition Height="38*"/&gt;
+        &lt;/Grid.RowDefinitions&gt;
+
+        &lt;Menu&gt;
+            &lt;MenuItem Height="30" FontSize="18" Header="Fájl"&gt;
+                &lt;MenuItem Header="Betöltés" Click="MenuItem_Click"&gt;&lt;/MenuItem&gt;
+            &lt;/MenuItem&gt;
+        &lt;/Menu&gt;
+
+        &lt;DataGrid x:Name="datagrid" Grid.Row="1"&gt;&lt;/DataGrid&gt;
+
+        &lt;ComboBox x:Name="comboboxNevek" Grid.Row="2" Width="200" SelectionChanged="comboboxNevek_SelectionChanged"&gt;&lt;/ComboBox&gt;
+        &lt;Button x:Name="buttonOsszes" Grid.Row="1" Margin="0,330,505,0" Grid.RowSpan="2" FontSize="20" Click="buttonOsszes_Click"&gt;Összes&lt;/Button&gt;
+        &lt;Button x:Name="gombMentes" Grid.Row="1" Margin="501,330,4,0" Grid.RowSpan="2" FontSize="20" Click="gombMentes_Click"&gt;Mentés&lt;/Button&gt;
+
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="doc-card mb-8">
+                <h2>3. Setup of the script behind the Main Window</h2>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header flex justify-between items-center p-3 border-b"><span>MainWindow.xaml.cs</span><button class="copy-btn" onclick="copyCode('code-csharp4')">Copy</button></div>
+                        <pre><code id="code-csharp4" class="language-csharp">
+using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace Varazsitalok
+{
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        public List&lt;Varazsital&gt; VarazsitalLista = new List&lt;Varazsital&gt;();
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.ShowDialog();
+                if (dialog.FileName != "")
+                { 
+                    StreamReader sr = new StreamReader(dialog.FileName);
+                    string elsosor = sr.ReadLine();
+                    while (!sr.EndOfStream)
+                    {
+                        string[] m = sr.ReadLine().Split(';');
+                        Varazsital peldany = new Varazsital(m[0], m[1], int.Parse(m[2]), m[3], m[4]);
+                        VarazsitalLista.Add(peldany);
+                    }
+                    datagrid.ItemsSource = VarazsitalLista;
+                    var nevek = VarazsitalLista.Select(x => x.ItalNeve).Distinct();
+                    comboboxNevek.ItemsSource = nevek;
+                }
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
+        }
+
+        private void comboboxNevek_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string keresettNev = comboboxNevek.SelectedItem.ToString();
+            var talalat = VarazsitalLista.FindAll(x => x.ItalNeve == keresettNev);
+            datagrid.ItemsSource = talalat;
+        }
+
+        private void buttonOsszes_Click(object sender, RoutedEventArgs e)
+        {
+            datagrid.ItemsSource = VarazsitalLista;
+        }
+
+        private void gombMentes_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.ShowDialog();
+            if (dialog.FileName != "")
+            {
+                FileStream fs = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write);
+                StreamWriter sw = new StreamWriter(fs);
+                sw.WriteLine("ItalNeve;Hatóanyag;HatásIdőtartama;ErősségiSzint;Ritkaság");
+                foreach (Varazsital item in datagrid.ItemsSource as List&lt;Varazsital&gt;)
+                {
+                    sw.WriteLine($"{item.ItalNeve};{item.Hatoanyag};{item.HatasIdotartalma};{item.ErossegiSzint};{item.Ritkasag}");
+                }
+                sw.Close();
+                fs.Close();
+            }
+        }
+    }
+}
+</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="doc-card mb-8">
+                <h2>4. A class for the project</h2>
+                <p>Here is a class that is usable in this WPF project.</p>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header flex justify-between items-center p-3 border-b"><span>Varazsital.cs</span><button class="copy-btn" onclick="copyCode('code-csharp5')">Copy</button></div>
+                        <pre><code id="code-csharp5" class="language-csharp">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Varazsitalok
+{
+    public class Varazsital
+    {
+        public string ItalNeve { get; set; }
+        public string Hatoanyag { get; set; }
+        public int HatasIdotartalma { get; set; }
+        public string ErossegiSzint { get; set; }
+        public string Ritkasag { get; set; }
+
+        public Varazsital(string italNeve, string hatoanyag, int hatasIdotartalma, string erossegiSzint, string ritkasag)
+        {
+            ItalNeve = italNeve;
+            Hatoanyag = hatoanyag;
+            HatasIdotartalma = hatasIdotartalma;
+            ErossegiSzint = erossegiSzint;
+            Ritkasag = ritkasag;
+        }
+    }
+}
+</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        hljs.highlightAll();
+        
+        function copyCode(elementId) {
+            const codeText = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                const btn = event.target;
+                const originalText = btn.innerText;
+                btn.innerText = "Copied!";
+                setTimeout(() => btn.innerText = originalText, 1500);
+            }).catch(err => console.error(err));
+        }
+
+        async function backupWebsite() {
+            try {
+                const fullHtml = document.documentElement.outerHTML;
+                await navigator.clipboard.writeText(fullHtml);
+                const backupBtn = document.getElementById('backupButton');
+                const originalText = backupBtn.innerHTML;
+                backupBtn.innerHTML = '✅ Backed up!';
+                backupBtn.classList.add('backup-success');
+                setTimeout(() => {
+                    backupBtn.innerHTML = originalText;
+                    backupBtn.classList.remove('backup-success');
+                }, 1500);
+            } catch (err) {
+                alert('Backup failed! Press Ctrl+S to save manually.');
+            }
+        }
+
+        // 15 RADICALLY DIFFERENT THEMES - each feels like a completely different website
+        const themes = [
+            { name: "Cyberpunk 2077", bodyBg: "#0a0a0f", cardBg: "#1a1a2e", textMain: "#00ffcc", accent: "#ff00ff", border: "#ff00ff", codeBg: "#0d0d1a", btnBg: "#ff00ff", btnHover: "#00ffcc", fontFamily: "'Space Grotesk', monospace", cardRadius: "0px", headerStyle: "neon", linkStyle: "glitch" },
+            { name: "Pastel Dream", bodyBg: "#f0f4ff", cardBg: "#ffffff", textMain: "#6b4e71", accent: "#ffb7b2", border: "#e0c3d5", codeBg: "#f9f2f5", btnBg: "#ffb7b2", btnHover: "#ff9b9b", fontFamily: "'DM Sans', sans-serif", cardRadius: "40px", headerStyle: "soft", linkStyle: "gentle" },
+            { name: "Dark Gothic", bodyBg: "#1a0f0f", cardBg: "#2d1f1f", textMain: "#e8d5c4", accent: "#8b0000", border: "#5c3a3a", codeBg: "#1f1414", btnBg: "#8b0000", btnHover: "#a52a2a", fontFamily: "'Playfair Display', serif", cardRadius: "8px", headerStyle: "serif", linkStyle: "elegant" },
+            { name: "Ocean Breeze", bodyBg: "#0b3b4f", cardBg: "#1e5a6b", textMain: "#d4f1f9", accent: "#ffd166", border: "#3a8c9e", codeBg: "#0a4b5c", btnBg: "#ffd166", btnHover: "#ffc233", fontFamily: "'Inter', sans-serif", cardRadius: "20px", headerStyle: "wave", linkStyle: "fresh" },
+            { name: "Sunset Fire", bodyBg: "#3d1a1a", cardBg: "#5e2e2e", textMain: "#ffe0b5", accent: "#ff7b00", border: "#c95a0f", codeBg: "#2a1a1a", btnBg: "#ff7b00", btnHover: "#ff9f2e", fontFamily: "'Outfit', sans-serif", cardRadius: "15px", headerStyle: "glow", linkStyle: "warm" },
+            { name: "Forest Magic", bodyBg: "#0e2a1f", cardBg: "#1e4a3a", textMain: "#c8e6d4", accent: "#e6b800", border: "#2d6a4f", codeBg: "#0a3525", btnBg: "#e6b800", btnHover: "#ffd633", fontFamily: "'DM Sans', sans-serif", cardRadius: "25px", headerStyle: "nature", linkStyle: "earthy" },
+            { name: "Retro Terminal", bodyBg: "#002200", cardBg: "#003300", textMain: "#00ff00", accent: "#ffff00", border: "#00aa00", codeBg: "#001a00", btnBg: "#ffff00", btnHover: "#ffff33", fontFamily: "'JetBrains Mono', monospace", cardRadius: "0px", headerStyle: "mono", linkStyle: "matrix" },
+            { name: "Royal Purple", bodyBg: "#1a0b2e", cardBg: "#2d1b45", textMain: "#e8ddff", accent: "#ffd700", border: "#6b4c9a", codeBg: "#1a0f30", btnBg: "#ffd700", btnHover: "#ffe44d", fontFamily: "'Plus Jakarta Sans', sans-serif", cardRadius: "30px", headerStyle: "luxury", linkStyle: "royal" },
+            { name: "Coffee Shop", bodyBg: "#3b2a1f", cardBg: "#5c4433", textMain: "#f5e6cc", accent: "#c47e3a", border: "#8b6914", codeBg: "#2e1f14", btnBg: "#c47e3a", btnHover: "#d4934a", fontFamily: "'Caveat', cursive", cardRadius: "12px", headerStyle: "warm", linkStyle: "handwritten" },
+            { name: "Arctic Ice", bodyBg: "#d4e6f1", cardBg: "#ffffff", textMain: "#2c3e50", accent: "#3498db", border: "#bdc3c7", codeBg: "#ecf0f1", btnBg: "#3498db", btnHover: "#5dade2", fontFamily: "'Inter', sans-serif", cardRadius: "10px", headerStyle: "clean", linkStyle: "sharp" },
+            { name: "Midnight Galaxy", bodyBg: "#050510", cardBg: "#101020", textMain: "#c0c0ff", accent: "#9900ff", border: "#330066", codeBg: "#0a0a1a", btnBg: "#9900ff", btnHover: "#bb33ff", fontFamily: "'Space Grotesk', monospace", cardRadius: "25px", headerStyle: "space", linkStyle: "glow" },
+            { name: "Vintage Paper", bodyBg: "#f4e4bc", cardBg: "#fff8e7", textMain: "#5c4033", accent: "#cd853f", border: "#deb887", codeBg: "#fdf5e6", btnBg: "#cd853f", btnHover: "#daa06a", fontFamily: "'Playfair Display', serif", cardRadius: "5px", headerStyle: "vintage", linkStyle: "classic" },
+            { name: "Lavender Dream", bodyBg: "#1e1a2f", cardBg: "#2d2448", textMain: "#f0eaff", accent: "#a78bfa", border: "#5b3e8c", codeBg: "#100b1f", btnBg: "#7c3aed", btnHover: "#a78bfa", fontFamily: "'Plus Jakarta Sans', sans-serif", cardRadius: "18px", headerStyle: "soft", linkStyle: "royal" },
+            { name: "Crimson Tide", bodyBg: "#2a0f14", cardBg: "#4a1e28", textMain: "#ffe0e0", accent: "#f43f5e", border: "#b91c2c", codeBg: "#1a080c", btnBg: "#e11d48", btnHover: "#f43f5e", fontFamily: "'Outfit', sans-serif", cardRadius: "12px", headerStyle: "glow", linkStyle: "warm" },
+            { name: "Mint Breeze", bodyBg: "#0f2e2a", cardBg: "#1f4e46", textMain: "#d1fae5", accent: "#14b8a6", border: "#2c7a6b", codeBg: "#091f1b", btnBg: "#0f766e", btnHover: "#14b8a6", fontFamily: "'Inter', sans-serif", cardRadius: "20px", headerStyle: "nature", linkStyle: "fresh" }
+        ];
+
+        function getRandomFontSizes() {
+            return {
+                h1: `${Math.floor(Math.random() * (56 - 38 + 1) + 38)}px`,
+                h2: `${Math.floor(Math.random() * (42 - 28 + 1) + 28)}px`,
+                body: `${Math.floor(Math.random() * (22 - 14 + 1) + 14)}px`,
+                code: `${Math.floor(Math.random() * (18 - 12 + 1) + 12)}px`,
+                sidebarLink: `${Math.floor(Math.random() * (19 - 13 + 1) + 13)}px`
+            };
+        }
+
+        function applyTheme(theme) {
+            const body = document.body;
+            const fontSizes = getRandomFontSizes();
+            
+            body.style.backgroundColor = theme.bodyBg;
+            body.style.color = theme.textMain;
+            body.style.fontFamily = theme.fontFamily;
+            body.style.fontSize = fontSizes.body;
+            
+            document.querySelectorAll('.doc-card').forEach(card => {
+                card.style.backgroundColor = theme.cardBg;
+                card.style.borderColor = theme.border;
+                card.style.borderRadius = theme.cardRadius;
+                card.style.boxShadow = theme.name.includes("Neon") || theme.name.includes("Cyber") ? "0 0 20px rgba(0,255,204,0.2)" : "0 20px 35px -12px rgba(0,0,0,0.3)";
+                card.style.fontSize = fontSizes.body;
+                card.style.borderWidth = theme.name.includes("Retro") ? "2px" : "1px";
+            });
+            
+            const sidebar = document.getElementById('dynamicSidebar');
+            sidebar.style.backgroundColor = theme.cardBg;
+            sidebar.style.borderColor = theme.border;
+            if (theme.name.includes("Cyber")) sidebar.style.borderRight = `2px solid ${theme.accent}`;
+            
+            document.querySelectorAll('.code-container, .code-header').forEach(cont => {
+                cont.style.backgroundColor = theme.codeBg;
+                cont.style.borderColor = theme.border;
+                cont.style.borderRadius = theme.cardRadius === "0px" ? "0px" : "12px";
+                cont.style.fontSize = fontSizes.code;
+            });
+            
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.style.backgroundColor = theme.btnBg;
+                btn.style.color = "#ffffff";
+                btn.style.borderRadius = theme.cardRadius === "0px" ? "0px" : "30px";
+                btn.style.padding = "0.3rem 1rem";
+                btn.style.fontSize = fontSizes.code;
+                btn.onmouseenter = () => btn.style.backgroundColor = theme.btnHover;
+                btn.onmouseleave = () => btn.style.backgroundColor = theme.btnBg;
+            });
+            
+            document.querySelectorAll('h1').forEach(h => {
+                h.style.color = theme.textMain;
+                if (theme.headerStyle === "neon") {
+                    h.style.textShadow = `0 0 10px ${theme.accent}, 0 0 20px ${theme.accent}`;
+                } else if (theme.headerStyle === "glow") {
+                    h.style.textShadow = `0 0 5px ${theme.accent}`;
+                } else {
+                    h.style.textShadow = "none";
+                }
+                h.style.fontSize = fontSizes.h1;
+                h.style.fontFamily = theme.fontFamily;
+            });
+            
+            document.querySelectorAll('.doc-card h2').forEach(h2 => {
+                h2.style.color = theme.accent;
+                h2.style.borderLeftColor = theme.accent;
+                h2.style.borderLeftWidth = theme.name.includes("Retro") ? "6px" : "4px";
+                h2.style.fontSize = fontSizes.h2;
+                if (theme.name.includes("Cyber")) h2.style.textShadow = `0 0 5px ${theme.accent}`;
+            });
+            
+            document.querySelectorAll('.logo span').forEach(span => span.style.color = theme.accent);
+            document.querySelectorAll('.logo h2').forEach(logo => {
+                logo.style.fontSize = `${Math.floor(parseInt(fontSizes.h1) * 0.6)}px`;
+                if (theme.name.includes("Cyber")) logo.style.textShadow = `0 0 5px ${theme.accent}`;
+            });
+            
+            document.querySelectorAll('.nav-menu a:not(.disabled)').forEach(link => {
+                link.style.color = theme.textMain;
+                link.style.fontWeight = "600";
+                link.style.borderRadius = theme.cardRadius === "0px" ? "0px" : "12px";
+                link.style.fontSize = fontSizes.sidebarLink;
+                link.onmouseenter = () => { 
+                    link.style.backgroundColor = `${theme.accent}30`; 
+                    if (theme.linkStyle === "glitch") link.style.transform = "translateX(4px) skewX(-5deg)";
+                    else if (theme.linkStyle === "slide") link.style.transform = "translateX(4px)";
+                    else link.style.transform = "translateX(4px)";
+                };
+                link.onmouseleave = () => { 
+                    link.style.backgroundColor = "transparent"; 
+                    link.style.transform = "translateX(0) skewX(0)";
+                };
+            });
+            
+            document.querySelectorAll('.nav-title').forEach(title => {
+                title.style.color = `${theme.textMain}80`;
+                title.style.fontSize = `${Math.floor(parseInt(fontSizes.sidebarLink) * 0.75)}px`;
+            });
+            
+            document.querySelectorAll('hr').forEach(hr => hr.style.backgroundColor = theme.border);
+            document.querySelectorAll('.section-desc').forEach(p => {
+                p.style.color = `${theme.textMain}cc`;
+                p.style.fontSize = fontSizes.body;
+            });
+            
+            document.querySelectorAll('code:not(pre code)').forEach(inline => {
+                inline.style.backgroundColor = theme.codeBg;
+                inline.style.color = theme.accent;
+                inline.style.fontSize = fontSizes.code;
+            });
+            
+            document.querySelectorAll('pre code, .hljs').forEach(block => {
+                block.style.fontSize = fontSizes.code;
+            });
+            
+            document.querySelectorAll('.code-header span').forEach(span => {
+                span.style.fontSize = fontSizes.code;
+            });
+            
+            document.querySelectorAll('p, li, .section-desc').forEach(text => {
+                if (!text.closest('.code-container') && !text.closest('.copy-btn')) {
+                    text.style.fontSize = fontSizes.body;
+                }
+            });
+        }
+        
+        const positions = ['left', 'right', 'top', 'bottom'];
+        function setSidebarPosition(pos) {
+            const sidebar = document.getElementById('dynamicSidebar');
+            const content = document.getElementById('dynamicContent');
+            sidebar.classList.remove('sidebar-left', 'sidebar-right', 'sidebar-top', 'sidebar-bottom');
+            content.classList.remove('content-left', 'content-right', 'content-top', 'content-bottom');
+            if(pos === 'left') { sidebar.classList.add('sidebar-left'); content.classList.add('content-left'); }
+            else if(pos === 'right') { sidebar.classList.add('sidebar-right'); content.classList.add('content-right'); }
+            else if(pos === 'top') { sidebar.classList.add('sidebar-top'); content.classList.add('content-top'); }
+            else if(pos === 'bottom') { sidebar.classList.add('sidebar-bottom'); content.classList.add('content-bottom'); }
+        }
+        
+        function randomLayout() { setSidebarPosition(positions[Math.floor(Math.random() * positions.length)]); }
+        function randomTheme() { applyTheme(themes[Math.floor(Math.random() * themes.length)]); }
+        
+        applyTheme(themes[0]);
+        setSidebarPosition('left');
+        
+        document.getElementById('randomThemeBtn').addEventListener('click', randomTheme);
+        document.getElementById('randomLayoutBtn').addEventListener('click', randomLayout);
+        document.getElementById('backupButton').addEventListener('click', backupWebsite);
+    </script>
+</body>
+</html>
