@@ -570,6 +570,143 @@ app.listen(PORT, () => {
                     </div>
                 </div>
             </div>
+
+
+			<div class="doc-card mb-8">
+                <h2>3. Node:sqlite Example (Synchronous / Cinema Network Management API)</h2>
+                <p>This example uses the <code>node:sqlite</code> package synchronously for a movie watching and film management system.</p>
+                <div class="code-wrapper">
+                    <div class="code-container">
+                        <div class="code-header flex justify-between items-center p-3 border-b">
+                            <span class="font-mono text-sm">index.js (node:sqlite)</span>
+                            <button class="copy-btn px-4 py-1 rounded-lg text-sm font-medium transition" onclick="copyCode('code-better-sqlite3')">Copy</button>
+                        </div>
+                        <pre><code id="code-better-sqlite3" class="language-javascript">
+const express = require('express');
+const cors = require('cors');
+const { DatabaseSync } = require('node:sqlite');  // ← Módosítás 1
+
+const app = express();
+app.use(express.json());
+app.use(cors());
+
+// Módosítás 2: new Database helyett new DatabaseSync
+const db = new DatabaseSync('mozihalo.db');
+
+// Módosítás 3: Kapcsolat létrehozása (node:sqlite-nél külön kell)
+// A node:sqlite automatikusan létrehozza a fájlt, de ellenőrizhetjük:
+try {
+    db.exec(`SELECT name FROM sqlite_master WHERE type='table'`);
+} catch (err) {
+    // Ha nincs tábla, létrehozhatjuk őket itt
+    console.log("Adatbázis táblák ellenőrzése...");
+}
+
+// TODO 5: GET / – üdvözlő JSON üzenet
+app.get("/", (req, res) => {
+    res.json({ message: "Üdvözlés" });
+});
+
+// TODO 6: GET /filmek
+app.get("/filmek", (req, res) => {
+    try {
+        const sql = "SELECT * FROM filmek";
+        const result = db.prepare(sql).all();   // ← Ugyanaz!
+        return res.status(200).json(result);
+    } catch (error) {
+        return res.status(500).json(error.message);
+    }
+});
+
+// TODO 7: GET /vetites/:vazon (JOIN)
+app.get("/vetites/:vazon", (req, res) => {
+    try {
+        const vazon = req.params.vazon;
+        const sql = `SELECT filmek.fcim, mozik.mnev, mozik.varos 
+                     FROM vetitesek 
+                     INNER JOIN mozik ON mozik.mazon = vetitesek.mazon 
+                     INNER JOIN filmek ON filmek.fazon = vetitesek.fazon 
+                     WHERE vetitesek.vazon = ?`;
+        const result = db.prepare(sql).get(Number(vazon));  // ← Ugyanaz!
+        return res.status(200).json(result);
+    } catch (error) {
+        return res.status(500).json(error.message);
+    }
+});
+
+// TODO 8: POST /filmek
+app.post("/filmek", (req, res) => {
+    try {
+        const { fazon, fcim, rendezo, gyartasi_ev, mufaj, jegypont } = req.body;
+        const sql = `INSERT INTO filmek (fazon, fcim, rendezo, gyartasi_ev, mufaj, jegypont) 
+                     VALUES (?, ?, ?, ?, ?, ?)`;
+        const result = db.prepare(sql).run(fazon, fcim, rendezo, gyartasi_ev, mufaj, jegypont);
+        // Módosítás 4: lastInsertRowid helyett lastInsertRowid (ugyanaz a neve!)
+        return res.status(201).json({
+            message: "Film sikeresen hozzáadva",
+            id: result.lastInsertRowid
+        });
+    } catch (error) {
+        return res.status(500).json(error.message);
+    }
+});
+
+// TODO 9: DELETE /film/:fazon
+app.delete("/film/:fazon", (req, res) => {
+    try {
+        const fazon = Number(req.params.fazon);
+        const sql = "DELETE FROM filmek WHERE fazon = ?";
+        const result = db.prepare(sql).run(fazon);
+        // Módosítás 5: changes tulajdonság (hány sor változott)
+        if (result.changes === 0) {
+            return res.status(404).json({ message: "Film nem található" });
+        }
+        return res.status(200).json({ message: "Film sikeresen törölve" });
+    } catch (error) {
+        return res.status(500).json(error.message);
+    }
+});
+
+// TODO 10: POST /mozik
+app.post("/mozik", (req, res) => {
+    const { mazon, mnev, varos, termek_szama } = req.body;
+    try {
+        const sql = `INSERT INTO mozik (mazon, mnev, varos, termek_szama) 
+                     VALUES (?, ?, ?, ?)`;
+        const result = db.prepare(sql).run(mazon, mnev, varos, termek_szama);
+        return res.status(201).json({
+            message: "Mozi sikeresen hozzáadva",
+            id: result.lastInsertRowid
+        });
+    } catch (error) {
+        return res.status(500).json(error.message);
+    }
+});
+
+// TODO 11: PATCH /vetites/:vazon
+app.patch("/vetites/:vazon", (req, res) => {
+    try {
+        const vazon = Number(req.params.vazon);
+        const { fazon, mazon, kezdete } = req.body;
+        const sql = "UPDATE vetitesek SET fazon = ?, mazon = ?, kezdete = ? WHERE vazon = ?";
+        const result = db.prepare(sql).run(fazon, mazon, kezdete, vazon);
+        if (result.changes === 0) {
+            return res.status(404).json({ message: "Vetítés nem található" });
+        }
+        return res.status(200).json({ message: "Vetítés sikeresen frissítve" });
+    } catch (error) {
+        return res.status(500).json(error.message);
+    }
+});
+
+// TODO 2: 8000-es port
+const PORT = 8000;
+app.listen(PORT, () => {
+    console.log(`Szerver fut: http://localhost:${PORT}`);
+});</code></pre>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <hr class="my-8 opacity-30">
