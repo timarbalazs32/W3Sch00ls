@@ -472,18 +472,14 @@ const Database = require('better-sqlite3');
 const app = express();
 app.use(express.json());
 
-// TODO 1: CORS engedélyezése (cors csomag)
 app.use(cors())
 
-// TODO 3: mozihalo.db adatbázis használata
 const db = new Database('mozihalo.db');
 
-// TODO 5: GET / – üdvözlő JSON üzenet
 app.get("/",  (req, res) => {
   res.json({message: "Üdvözlés"});
 })
 
-// TODO 6: GET /filmek
 app.get("/filmek", (req, res) => {
   try {
     const sql = "select * from filmek";
@@ -495,7 +491,6 @@ app.get("/filmek", (req, res) => {
   }
 });
 
-// TODO 7: GET /vetites/:vazon (JOIN: fcim, mnev, varos)
 app.get("/vetites/:vazon", (req, res) => {
   try {
     const vazon = req.params.vazon;
@@ -508,7 +503,6 @@ app.get("/vetites/:vazon", (req, res) => {
   }
 });
 
-// TODO 8: POST /filmek
 app.post("/filmek", (req, res) => {
   try {
     const {fazon, fcim, rendezo, gyartasi_ev, mufaj, jegypont} = req.body;
@@ -521,7 +515,6 @@ app.post("/filmek", (req, res) => {
   }
 })
 
-// TODO 9: DELETE /film/:fazon
 app.delete("/film/:fazon", (req, res) => {
   try {
     const fazon = Number(req.params.fazon);
@@ -534,7 +527,6 @@ app.delete("/film/:fazon", (req, res) => {
   }
 })
 
-// TODO 10: POST /mozik
 app.post("/mozik", (req, res) => {
   const {mazon, mnev, varos, termek_szama} = req.body;
   try {
@@ -547,7 +539,6 @@ app.post("/mozik", (req, res) => {
   }
 })
 
-// TODO 11: PATCH /vetites/:vazon
 app.patch("/vetites/:vazon", (req, res) => {
   try {
     const vazon = Number(req.params.vazon);
@@ -562,7 +553,6 @@ app.patch("/vetites/:vazon", (req, res) => {
   }
 })
 
-// TODO 2: 8000-es port
 const PORT = 8000;
 app.listen(PORT, () => {
   console.log(`Szerver fut: http://localhost:${PORT}`);
@@ -590,11 +580,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Módosítás 2: new Database helyett new DatabaseSync
 const db = new DatabaseSync('mozihalo.db');
 
-// Módosítás 3: Kapcsolat létrehozása (node:sqlite-nél külön kell)
-// A node:sqlite automatikusan létrehozza a fájlt, de ellenőrizhetjük:
 try {
     db.exec(`SELECT name FROM sqlite_master WHERE type='table'`);
 } catch (err) {
@@ -602,12 +589,10 @@ try {
     console.log("Adatbázis táblák ellenőrzése...");
 }
 
-// TODO 5: GET / – üdvözlő JSON üzenet
 app.get("/", (req, res) => {
     res.json({ message: "Üdvözlés" });
 });
 
-// TODO 6: GET /filmek
 app.get("/filmek", (req, res) => {
     try {
         const sql = "SELECT * FROM filmek";
@@ -618,7 +603,6 @@ app.get("/filmek", (req, res) => {
     }
 });
 
-// TODO 7: GET /vetites/:vazon (JOIN)
 app.get("/vetites/:vazon", (req, res) => {
     try {
         const vazon = req.params.vazon;
@@ -634,7 +618,6 @@ app.get("/vetites/:vazon", (req, res) => {
     }
 });
 
-// TODO 8: POST /filmek
 app.post("/filmek", (req, res) => {
     try {
         const { fazon, fcim, rendezo, gyartasi_ev, mufaj, jegypont } = req.body;
@@ -651,7 +634,6 @@ app.post("/filmek", (req, res) => {
     }
 });
 
-// TODO 9: DELETE /film/:fazon
 app.delete("/film/:fazon", (req, res) => {
     try {
         const fazon = Number(req.params.fazon);
@@ -667,7 +649,6 @@ app.delete("/film/:fazon", (req, res) => {
     }
 });
 
-// TODO 10: POST /mozik
 app.post("/mozik", (req, res) => {
     const { mazon, mnev, varos, termek_szama } = req.body;
     try {
@@ -683,7 +664,6 @@ app.post("/mozik", (req, res) => {
     }
 });
 
-// TODO 11: PATCH /vetites/:vazon
 app.patch("/vetites/:vazon", (req, res) => {
     try {
         const vazon = Number(req.params.vazon);
@@ -699,7 +679,6 @@ app.patch("/vetites/:vazon", (req, res) => {
     }
 });
 
-// TODO 2: 8000-es port
 const PORT = 8000;
 app.listen(PORT, () => {
     console.log(`Szerver fut: http://localhost:${PORT}`);
