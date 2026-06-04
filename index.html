@@ -585,7 +585,6 @@ const db = new DatabaseSync('mozihalo.db');
 try {
     db.exec(`SELECT name FROM sqlite_master WHERE type='table'`);
 } catch (err) {
-    // Ha nincs tábla, létrehozhatjuk őket itt
     console.log("Adatbázis táblák ellenőrzése...");
 }
 
@@ -596,7 +595,7 @@ app.get("/", (req, res) => {
 app.get("/filmek", (req, res) => {
     try {
         const sql = "SELECT * FROM filmek";
-        const result = db.prepare(sql).all();   // ← Ugyanaz!
+        const result = db.prepare(sql).all();
         return res.status(200).json(result);
     } catch (error) {
         return res.status(500).json(error.message);
@@ -611,7 +610,7 @@ app.get("/vetites/:vazon", (req, res) => {
                      INNER JOIN mozik ON mozik.mazon = vetitesek.mazon 
                      INNER JOIN filmek ON filmek.fazon = vetitesek.fazon 
                      WHERE vetitesek.vazon = ?`;
-        const result = db.prepare(sql).get(Number(vazon));  // ← Ugyanaz!
+        const result = db.prepare(sql).get(Number(vazon));
         return res.status(200).json(result);
     } catch (error) {
         return res.status(500).json(error.message);
@@ -624,7 +623,6 @@ app.post("/filmek", (req, res) => {
         const sql = `INSERT INTO filmek (fazon, fcim, rendezo, gyartasi_ev, mufaj, jegypont) 
                      VALUES (?, ?, ?, ?, ?, ?)`;
         const result = db.prepare(sql).run(fazon, fcim, rendezo, gyartasi_ev, mufaj, jegypont);
-        // Módosítás 4: lastInsertRowid helyett lastInsertRowid (ugyanaz a neve!)
         return res.status(201).json({
             message: "Film sikeresen hozzáadva",
             id: result.lastInsertRowid
@@ -639,7 +637,6 @@ app.delete("/film/:fazon", (req, res) => {
         const fazon = Number(req.params.fazon);
         const sql = "DELETE FROM filmek WHERE fazon = ?";
         const result = db.prepare(sql).run(fazon);
-        // Módosítás 5: changes tulajdonság (hány sor változott)
         if (result.changes === 0) {
             return res.status(404).json({ message: "Film nem található" });
         }
